@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+
+<h1>Usuário: {{ user.email }}</h1>
+
+<p><strong>Nome:</strong> <a href="">{{ user.email}}</a></p>
+<p><strong>Nome:</strong> {{ user.email }}</p>
+<p><strong>Nome:</strong> {{ user.email }}</p>
+<p><strong>Nome:</strong> {{ user.email }}</p>
+
+
+
+<a class="btn btn-primary" href="{% url 'user:update' user.id %}" role="button">Editar</a> <br><br>
+<a class="btn btn-danger" href="{% url 'user:delete' user.id %}" role="button">Deletar</a>
+{% endblock %}

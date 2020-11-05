@@ -1,0 +1,289 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>AHP WEB</title>
+  <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css'>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"> 
+</head>
+
+<body>
+  <div class="ui wrapper container">
+    <div class="ui stackable grid">
+      <div align="center" class="sixteen wide column">
+          <h1 class="subheader">AHP WEB</h1>
+          <img src="{% static 'img/ahp_balance.jpg' %}" alt="" class="ui fluid image" style="max-height: 200px; width:auto">
+      </div>      
+      <div class="six wide column">
+          <div class="sixteen wide column">
+              <h3 class="subheader">Analytic Hierarchy Process<span class="text-green">  (AHP)</span></h3>
+              <p>Método para auxílio em tomadas de decisões</p>
+              <div class="ui list">
+                <div class="item"><i class="checkmark icon text-green"></i>&nbsp; Análise multicritérios</div>
+                <div class="item"><i class="checkmark icon text-green"></i>&nbsp; Tomada de decisão</div>
+                <div class="item"><i class="checkmark icon text-green"></i>&nbsp; Pairwise</div>
+              </div>
+
+              <a class="fluid ui green large animated fade button" tabindex="0" href="{% url 'user:add' %}">
+                <div class="visible content"><i class="add user icon"></i> Não está registrado?</div>
+                <div class="hidden content">
+                    Clique aqui e registre-se <i class="right arrow icon"></i>
+                </div>
+              </a>
+              <br>
+              <a class="fluid ui primary large animated fade button" tabindex="0" >
+                <div class="visible content"><i class="tag icon"></i> Dúvidas sobre AHP</div>
+                <div class="hidden content">
+                    Saiba mais sobre<i class="right arrow icon"></i>
+                </div>
+              </a>
+            </div>
+      </div>
+      <!-- /.col -->
+      <div class="ten wide column">
+          <div class="ui padded green segment">
+
+            
+                    {% if form.errors %}
+                    <div class="ui form error">
+                      <div class="ui error message">
+                        <div class="header">Warning!</div>
+                        <p>Your username and password didn't match. Please try again.</p>
+                      </div>
+                    </div>
+                    {% endif %}
+
+                    {% if next %}
+                    
+                        {% if user.is_authenticated %}
+                        <div class="ui form error">
+                          <div class="ui error message">
+                            <div class="header">Warning!</div>
+                              <p>Your account doesn't have access to this page. To proceed, please login with an account that has access.</p>
+                          </div>
+                        </div>
+                        {% else %}
+                        <div class="ui form sucess">
+                          <div class="ui error message">
+                            <p>Please login to see this page.</p>
+                            </div>
+                        </div>
+                        {% endif %}
+                    {% endif %}
+              
+
+              <form class= "ui form " method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+                <table>
+                <tr>
+                    <td>{{ form.username.label_tag }}</td>
+                    <td >{{ form.username }}</td>
+                </tr>
+                <br>
+                <tr>
+                    <td>{{ form.password.label_tag }}</td>
+                    <td>{{ form.password }}</td>
+                </tr>
+                </table>
+                <br>
+                <div class="field">
+                    <div class="ui checkbox">
+                      <input type="checkbox" tabindex="0">
+                      <label>Lembrar dados</label>
+                    </div>
+                </div>
+                <button class="ui green button" type="submit" value="login">Log in</button>
+                <input type="hidden" name="next" value="{{ next }}">
+                <a class="ui button" href="{% url 'password_reset' %}">Esqueceu a senha?</a>
+                </form>
+          </div>
+      </div>
+      <!-- /.col -->      
+    </div>
+    <!-- /.grid -->
+</div>
+<!-- /.container -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.js'></script>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+<!--
+
+
+
+{% if form.errors %}
+<p>Your username and password didn't match. Please try again.</p>
+{% endif %}
+
+{% if next %}
+    {% if user.is_authenticated %}
+    <p>Your account doesn't have access to this page. To proceed,
+    please login with an account that has access.</p>
+    {% else %}
+    <p>Please login to see this page.</p>
+    {% endif %}
+{% endif %}
+
+
+
+
+<form class= "ui form" method="post" action="{% url 'login' %}">
+{% csrf_token %}
+<table>
+<tr>
+    <td>{{ form.username.label_tag }}</td>
+    <td>{{ form.username }}</td>
+</tr>
+<tr>
+    <td>{{ form.password.label_tag }}</td>
+    <td>{{ form.password }}</td>
+</tr>
+</table>
+
+<input type="submit" value="login">
+<input type="hidden" name="next" value="{{ next }}">
+</form>
+
+{# Assumes you setup the password_reset view in your URLconf #}
+<p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+
+
+
+
+ 
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Login Example - Semantic</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'dist/components/reset.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'dist/components/site.css' %}">
+
+  <link rel="stylesheet" type="text/css" href="{% static 'dist/components/container.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'dist/components/grid.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'dist/components/header.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'dist/components/image.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'dist/components/menu.css' %}">
+
+  <link rel="stylesheet" type="text/css" href="{% static 'dist/components/divider.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'dist/components/segment.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'dist/components/form.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'dist/components/input.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'dist/components/button.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'dist/components/list.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'dist/components/message.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'dist/components/icon.css' %}">
+
+  <script src="assets/library/jquery.min.js' %}"></script>
+  <script src="{% static 'dist/components/form.js' %}"></script>
+  <script src="{% static 'dist/components/transition.js' %}"></script>
+
+  <style type="text/css' %}">
+    body {
+      background-color: #DADADA;
+    }
+    body > .grid {
+      height: 100%;
+    }
+    .image {
+      margin-top: -100px;
+    }
+    .column {
+      max-width: 450px;
+    }
+  </style>
+  <script>
+  $(document)
+    .ready(function() {
+      $('.ui.form')
+        .form({
+          fields: {
+            email: {
+              identifier  : 'email',
+              rules: [
+                {
+                  type   : 'empty',
+                  prompt : 'Please enter your e-mail'
+                },
+                {
+                  type   : 'email',
+                  prompt : 'Please enter a valid e-mail'
+                }
+              ]
+            },
+            password: {
+              identifier  : 'password',
+              rules: [
+                {
+                  type   : 'empty',
+                  prompt : 'Please enter your password'
+                },
+                {
+                  type   : 'length[6]',
+                  prompt : 'Your password must be at least 6 characters'
+                }
+              ]
+            }
+          }
+        })
+      ;
+    })
+  ;
+  </script>
+</head>
+<body>
+
+<div class="ui middle aligned center aligned grid">
+  <div class="column">
+    <h2 class="ui teal image header">
+      <img src="{% static 'assets/images/logo.png' %}" class="image">
+      <div class="content">
+        Log-in to your account
+      </div>
+    </h2>
+    <form class="ui large form">
+      <div class="ui stacked segment">
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="user icon"></i>
+            <input type="text" name="email" placeholder="E-mail address' %}">
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="lock icon"></i>
+            <input type="password" name="password" placeholder="Password">
+          </div>
+        </div>
+        <div class="ui fluid large teal submit button">Login</div>
+      </div>
+
+      <div class="ui error message"></div>
+
+    </form>
+
+    <div class="ui message">
+      New to us? <a href="#">Sign Up</a>
+    </div>
+  </div>
+</div>
+
+</body>
+
+</html> -->

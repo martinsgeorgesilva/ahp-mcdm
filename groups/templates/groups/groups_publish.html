@@ -1,0 +1,219 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+{% load static %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"
+    integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+<style>
+    .slidecontainer {
+        width: 100%;
+        /* Width of the outside container */
+    }
+
+    .slider {
+        -webkit-appearance: none;
+        /* Override default CSS styles */
+        appearance: none;
+        width: 100%;
+        /* Full-width */
+        height: 25px;
+        /* Specified height */
+        background: #000000;
+        /* Grey background */
+        outline: none;
+        /* Remove outline */
+        opacity: 0.3;
+        height: 2px;
+        /* Set transparency (for mouse-over effects on hover) */
+        -webkit-transition: .2s;
+        /* 0.2 seconds transition on hover */
+        transition: opacity .2s;
+    }
+
+    .slider:hover {
+        opacity: 1;
+        /* Fully shown on mouse-over */
+    }
+
+    .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        /* Override default look */
+        appearance: none;
+        width: 25px;
+        /* Set a specific slider handle width */
+        height: 25px;
+        /* Slider handle height */
+        background: rgb(21, 103, 255);
+        border-radius: 12px;
+        /* Green background */
+        cursor: pointer;
+        /* Cursor on hover */
+    }
+
+    .slider::-moz-range-thumb {
+        width: 25px;
+        /* Set a specific slider handle width */
+        height: 25px;
+        /* Slider handle height */
+        background: #4CAF50;
+        /* Green background */
+        cursor: pointer;
+        /* Cursor on hover */
+    }
+
+
+    @media (min-height: 320px) {
+        .ui.footer.form-page {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+    }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+
+<script src="{% static 'js/pub_form.js' %}"></script>
+
+<script type="text/javascript">
+    console.log(window.screen.availHeight,
+        window.screen.availWidth)
+
+    if (window.screen.availWidth > 700) {
+
+        window.onscroll = function () {
+
+            var height = document.body.clientHeight;
+
+            var a = $('#main').height()
+            var b = $('#cont').height()
+
+            if (window.pageYOffset < (a - b)) {
+                // if (true){
+                console.log('andou', window.pageYOffset)
+
+                document.getElementById('cont').style.top = window.pageYOffset + 'px';
+            }
+
+        };
+    }
+
+</script>
+<br>
+<div class="ui container">
+    <div class="ui stackable two column grid">
+        <div class="row">
+            <div class="main column" id="main">
+                <div class="ui segment">
+                    <a class="ui blue ribbon label">Formulário</a>
+                    <p></p>
+                    <form action="" method="post" class="form-control" id="my_form">
+                        {% csrf_token %}
+                        <input type="hidden" id="len_relations" value="{{len_relations}}" name='len_relations'>
+                        <input type="hidden" value="{{len_criterios}}" name='qtd'>
+                        <input type="hidden" value="{{id}}" name='object_id'>
+                        {% for relations in relations_list %}
+                        <div style="padding: 10px; border: 1px solid #cacaca;">
+                            <div className="ui label floated left pointing" id="projectsMenuCounter">
+                                <div style="float:left;" className="ui active inline loader inverted">
+                                    <strong>{{ relations.0 }}</strong>
+                                </div>
+                                <div style="float:right;" className="ui active inline loader inverted">
+                                    <strong>{{ relations.1 }}</strong>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="slidecontainer border border-success">
+                                <div style="display: flex; justify-content: space-around;">
+                                    <div>9</div>
+                                    <div>8</div>
+                                    <div>7</div>
+                                    <div>6</div>
+                                    <div>5</div>
+                                    <div>4</div>
+                                    <div>3</div>
+                                    <div>2</div>
+                                    <div>1</div>
+                                    <div>2</div>
+                                    <div>3</div>
+                                    <div>4</div>
+                                    <div>5</div>
+                                    <div>6</div>
+                                    <div>7</div>
+                                    <div>8</div>
+                                    <div>9</div>
+                                </div>
+                                <input type="range" name="range_{{ forloop.counter0 }}" min="0" max="16" class="slider"
+                                    data-name1="{{ relations.0 }}" data-name2="{{ relations.1 }}"
+                                    id="range_{{ forloop.counter0 }}">
+                                <p style="padding-top:10px">R: <span id="span_{{ forloop.counter0 }}"></span></p>
+                            </div>
+                        </div>
+                        <br>
+                        {% empty %}
+                        <li>Sem Relacionamentos para o Grupo Ainda.</li>
+                        {% endfor %}
+                    </form>
+                    <p></p>
+                </div>
+            </div>
+            <div class="column">
+                <div class="ui sticky segments" id='cont'>
+
+                    <div class="ui segment">
+                        <a class="ui orange right ribbon label">Preferências</a>
+                        <div id="container"></div>
+                        <br>
+                        <div style="text-align: center;">
+                            <div id='btn-red'>
+                                <h4 class="ui horizontal divider header">
+                                    <i class="tag icon"></i>
+                                    Resultados
+                                </h4>
+                                <div class="ui labeled button" tabindex="0">
+                                    <div class="ui red button">
+                                        <i class="hand point down icon"></i> Inconsistência
+                                    </div>
+                                    <a class="ui basic red left pointing label">
+                                        <span id="ci1"></span>%
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div id='btn-green'>
+                                <h4 class="ui horizontal divider header">
+                                    <i class="tag icon"></i>
+                                    Resultados
+                                </h4>
+                                <div class="ui labeled button" tabindex="0">
+                                    <div class="ui green button">
+                                        <i class="hand point up icon"></i> Inconsistência
+                                    </div>
+                                    <a class="ui basic green left pointing label">
+                                        <span id="ci2"></span>%
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div id="btn" class="right item">
+                            <h4 class="ui horizontal divider header">
+                                <i class="tag icon"></i>
+                                Submeter
+                            </h4>
+                            <a class="ui black bottom attached button" onclick="fakeSubmit()"><i
+                                    class="icon play"></i>Submeter</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+</div>
+
+{% endblock %}

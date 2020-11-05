@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+
+
+<div class="ui container">
+<h1>Pesquisa: {{ research }}</h1>
+<p><strong>do Formulário:</strong> {{ research.Groups.name}}</p>
+<p><strong>Criado por:</strong> {{ research.created_by }}</p>
+<p><strong>Criado em:</strong> {{ research.created_at }}</p>
+</div>
+
+<div class="ui container">
+<table class="ui inverted table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Cargo</th>
+            <th>company</th>
+            <th>criterions</th>
+            <th>preferences</th>
+            <th>ic</th>
+            <th>data</th>
+            <th>Idade</th>
+            <th>Time_emp</th>
+            <th>Time_xp</th>
+            <th>sexo</th>
+            <th>escolaridade</th>
+        </tr>
+    </thead>
+        <tbody>
+            {% for el in executions %}
+          <tr>
+            <td data-label="Name">{{el.who}}</td>
+            <td data-label="Name">{{el.email}}</td>
+            <td data-label="Name">{{el.occupation}}</td>
+            <td data-label="Job">{{el.company}}</td>
+            <td data-label="Job">{{el.criterions}}</td>
+            <td data-label="Job">{{el.preferences}}</td>
+            <td data-label="Age">{{el.ic}}</td>
+            <td data-label="Job">{{el.created_at}}</td>
+            <td data-label="Age">{{el.age}}</td>
+            <td data-label="Age">{{el.time_emp}}</td>
+            <td data-label="Age">{{el.time_xp}}</td>
+            <td data-label="Age">{{el.sexo}}</td>
+            <td data-label="Age">{{el.escolaridade}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+</table>
+</div>
+
+precisa quantas execuções <br> <br>
+
+precisa ultima execução <br> <br>
+
+precisa de opção  para baixar os dados exportar csv <br> <br>
+
+precisa lista dos que executaram e talvez dos que ainda não executaram (obrigatório implementar sistema de emails)  <br> <br>
+<Br>
+<a href="{% url 'research:execution' research.Groups.id %}"> localhost:8000{% url 'research:execution' research.Groups.id %}</a>
+<Br>
+
+{% endblock %}

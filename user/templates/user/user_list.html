@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+<h1>Usuários Cadastrados</h1>
+<ul>
+    {% for user in object_list %}
+    <li><a href="{% url 'user:detail' user.id %}">{{ user.email }}</a></li>
+    {% empty %}
+    <li>Sem usuários ainda.</li>
+    {% endfor %}
+</ul>
+
+
+<a class="btn btn-primary" href="{% url 'user:add' %}" role="button">Novo Usuário</a>
+
+
+{% endblock %}

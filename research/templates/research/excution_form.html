@@ -1,0 +1,290 @@
+{% extends 'base2.html' %}
+{% load i18n %}
+
+{% block textHeader %}
+<div class="ui top attached button">
+    <h2>{{objective}}</h2>
+    Objetivos: {{objective.objective}}
+</div>
+      </div>
+{% endblock %}
+
+
+{% block content %}
+{% load static %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"
+    integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+<style>
+    .slidecontainer {
+        width: 100%;
+        /* Width of the outside container */
+    }
+
+    .slider {
+        -webkit-appearance: none;
+        /* Override default CSS styles */
+        appearance: none;
+        width: 100%;
+        /* Full-width */
+        height: 25px;
+        /* Specified height */
+        background: #000000;
+        /* Grey background */
+        outline: none;
+        /* Remove outline */
+        opacity: 0.3;
+        height: 2px;
+        /* Set transparency (for mouse-over effects on hover) */
+        -webkit-transition: .2s;
+        /* 0.2 seconds transition on hover */
+        transition: opacity .2s;
+    }
+
+    .slider:hover {
+        opacity: 1;
+        /* Fully shown on mouse-over */
+    }
+
+    .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        /* Override default look */
+        appearance: none;
+        width: 25px;
+        /* Set a specific slider handle width */
+        height: 25px;
+        /* Slider handle height */
+        background: rgb(21, 103, 255);
+        border-radius: 12px;
+        /* Green background */
+        cursor: pointer;
+        /* Cursor on hover */
+    }
+
+    .slider::-moz-range-thumb {
+        width: 25px;
+        /* Set a specific slider handle width */
+        height: 25px;
+        /* Slider handle height */
+        background: #4CAF50;
+        /* Green background */
+        cursor: pointer;
+        /* Cursor on hover */
+    }
+
+
+    @media (min-height: 320px) {
+        .ui.footer.form-page {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+    }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+
+<script src="{% static 'js/pub_form.js' %}"></script>
+
+<script type="text/javascript">
+    console.log(window.screen.availHeight,
+        window.screen.availWidth)
+
+    if (window.screen.availWidth > 700) {
+
+        window.onscroll = function () {
+
+            var height = document.body.clientHeight;
+
+            var a = $('#main').height()
+            var b = $('#cont').height()
+
+            if (window.pageYOffset < (a - b)) {
+                console.log('andou', window.pageYOffset)
+
+                document.getElementById('cont').style.top = window.pageYOffset + 'px';
+            }
+
+        };
+    }
+
+</script>
+<br>
+<div class="ui container">
+    <div class="ui stackable two column grid">
+        <div class="row">
+            <div class="main column" id="main">
+                <div class="ui segment">
+                    <a class="ui blue ribbon label">Formulário</a>
+                    <p></p>
+                    <form action="" method="post" class="form-control" id="my_form">
+                        {% csrf_token %}
+                        <input type="hidden" id="len_relations" value="{{len_relations}}" name='len_relations'>
+                        <input type="hidden" value="{{len_criterios}}" name='qtd'>
+                        <input type="hidden" value="{{id}}" name='object_id'>
+                        {% for relations in relations_list %}
+                        <div style="padding: 10px; border: 1px solid #cacaca;">
+                            <div className="ui label floated left pointing" id="projectsMenuCounter">
+                                <div style="float:left;" className="ui active inline loader inverted">
+                                    <p href="#" data-toggle="tooltip" title="{% if relations.0 == 'Cultura e Valores' %}A personalidade de organização. Composta pelas premissas, valores, normas e sinais tangíveis das lideranças da organização e seus comportamentos. Fortalece o pensamento independente e a aplicação do conhecimento pessoal para os desafios organizacionais.  Incentivo institucional ao questionamento e a quebra de paradigmas para gerar inovação. Reconhecimento e recompensas.{% elif relations.0 == 'Pessoas' %}Como a organização privilegia, estimula e recompensa seus empregados na busca da inovação. A organização se foca em indivíduos competentes, estimulados e dispostos ao enfrentamento dos desafios. Estas ações buscam garantir que todos os empregados conheçam os conceitos e a necessidade de inovar.{% elif relations.0 == 'Liderança' %}Refere-se ao papel das lideranças para assegurar a eficácia do processo de gestão da inovação, inclusive considerando aspectos de comunicação, aprendizado e mudança, além da tolerância a riscos. Está atrelada ao grau de comprometimento que as lideranças e influenciadores tem para instituir ou propiciar a inovação.{% elif relations.0 == 'Estratégia' %}Diz respeito à definição da 'arena estratégica' para a inovação. Formulação de objetivos estratégicos de inovação, bem como o uso da inovação como instrumento estratégico para criar diferenciação. O entendimento que a inovação deve ter prioridade no planejamento estratégico da organização.{% endif %}">                                
+                                    <strong>{{ relations.0 }}</strong></p>
+                                </div>
+<div style="float:right;" className="ui active inline loader inverted">
+                                    <p href="#" data-toggle="tooltip" 
+                                    title="{% if relations.1 == 'Cultura e Valores' %}Personalidade de organização. É composta pelas premissas, valores, normas e sinais tangíveis das lideranças da organização e seus comportamentos. A cultura e valores da empresa fortalecem o pensamento independente e a aplicação do conhecimento pessoal para os desafios organizacionais.  Dá forte incentivo institucional ao questionamento e a quebra de paradigmas para gerar inovação. Está atrelado ao reconhecimento e recompensas.{% elif relations.1 == 'Pessoas' %}O termo pessoas não se refere a um indivíduo ou mesmo ao conjunto dos indivíduos. O termo está atrelado a como a organização privilegia, estimula e recompensa seus empregados na busca da inovação. Como a organização se foca em indivíduos competentes, estimulados e dispostos ao enfrentamento dos desafios. Estas ações buscam garantir que todos os empregados conheçam os conceitos e a necessidade de inovar.{% elif relations.1 == 'Liderança' %}O termo liderança no contexto deste estudo não se refere às pessoas que ocupam cargos de liderança, mas sim ao papel das lideranças para assegurar a eficácia do processo de gestão da inovação, inclusive considerando aspectos de comunicação, aprendizado e mudança, além da tolerância a riscos. Está atrelada ao grau de comprometimento que as lideranças e influenciadores tem para instituir ou propiciar a inovação.{% elif relations.1 == 'Estratégia' %} O termo estratégia diz respeito à definição da 'arena estratégica' para a inovação. Formulação de objetivos estratégicos de inovação, bem como o uso da inovação como instrumento estratégico para criar diferenciação. O entendimento que a inovação deve ter prioridade no planejamento estratégico da organização.{% endif %}">
+                                    <strong>{{ relations.1 }}</strong></p>
+                                </div>
+                            </div>
+<br>
+                            <div class="slidecontainer border border-success">
+                                <div style="display: flex; justify-content: space-around;">
+                                    <div>9</div>
+                                    <div>8</div>
+                                    <div>7</div>
+                                    <div>6</div>
+                                    <div>5</div>
+                                    <div>4</div>
+                                    <div>3</div>
+                                    <div>2</div>
+                                    <div>1</div>
+                                    <div>2</div>
+                                    <div>3</div>
+                                    <div>4</div>
+                                    <div>5</div>
+                                    <div>6</div>
+                                    <div>7</div>
+                                    <div>8</div>
+                                    <div>9</div>
+                                </div>
+                                <input type="range" name="range_{{ forloop.counter0 }}" min="0" max="16" class="slider"
+                                    data-name1="{{ relations.0 }}" data-name2="{{ relations.1 }}"
+                                    id="range_{{ forloop.counter0 }}">
+                                <p style="padding-top:10px">R: <span id="span_{{ forloop.counter0 }}"></span></p>
+                            </div>
+                        </div>
+                        <br>
+                        {% empty %}
+                        <li>Sem Relacionamentos para o Grupo Ainda.</li>
+                        {% endfor %}
+                    <p></p>
+                </div>
+            </div>
+            <div class="column">
+                <div class="ui sticky segments" id='cont'>
+
+                    <div class="ui segment">
+                        <a class="ui orange right ribbon label">Preferências</a>
+                        <div id="container"></div>
+<br>
+                        <div style="text-align: center;">
+                            <div id='btn-red'>
+                                <h4 class="ui horizontal divider header">
+                                    <i class="tag icon"></i>
+                                    Resultados
+                                </h4>
+                                <div class="ui labeled button" tabindex="0">
+                                    <div class="ui red button">
+                                        <i class="hand point down icon"></i> Inconsistência
+                                    </div>
+                                    <a class="ui basic red left pointing label">
+                                        <span id="ci1"></span>%
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div id='btn-green'>
+                                <h4 class="ui horizontal divider header">
+                                    <i class="tag icon"></i>
+                                    Resultados
+                                </h4>
+                                <div class="ui labeled button" tabindex="0">
+                                    <div class="ui green button">
+                                        <i class="hand point up icon"></i> Inconsistência
+                                    </div>
+                                    <a class="ui basic green left pointing label">
+                                        <span id="ci2"></span>%
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+<div id="btn" class="right item">
+                            <h4 class="ui horizontal divider header">
+                                <i class="tag icon"></i>
+                                Submeter
+                            </h4>
+                                     <div class="ui form success">
+                                <div class="field">
+                                    <label>E-mail</label>
+                                    <input type="email" placeholder="joe@schmoe.com" name="email" maxlength="50"
+                                        required="" id="id_email">
+                                </div>
+                                <div class="field">
+                                    <label>Nome</label>
+                                    <input type="text" placeholder="Nome" name="who" maxlength="50" required=""
+                                        id="id_who">
+                                </div>
+                                <div class="field">
+                                    <label>Empresa</label>
+                                    <input type="text" placeholder="Empresa" name="company" maxlength="50" required="" id="id_company"> </div>
+<div class="field">
+                                    <label>Função</label>
+                                    <input type="text" placeholder="Função" name="occupation" maxlength="50" required="" id="id_occupation">
+                                </div>
+                                <div class="field search selection dropdown">
+                                    <label>Idade</label>
+                                    <input type="number" min="0" step="1" placeholder="Idade" name="age" maxlength="50" required="" id="id_age">
+                                </div>
+                                <div class="field search selection dropdown">
+                                    <label>Tempo de Empresa em anos</label>
+                                    <input type="number" min="0" step="1" placeholder="Tempo de Empresa em anos" name="time_emp" maxlength="50" required="" id="id_time_emp">
+                                </div>
+
+                                <div class="field search selection dropdown">
+                                    <label>Tempo de Experiência na função em anos</label>
+                                    <input type="number" min="0" step="1" placeholder="Tempo de Experiência" name="time_xp" maxlength="50" required="" id="id_time_xp">
+                                </div>
+<div class="field">
+                                  <label>Sexo</label>
+                                  <select name='sexo'>
+                                    <option value="NI" disabled selected>Sexo</option>
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Feminino</option>
+                                    <option value="NI">Não desejo informar</option>   
+                                  </select>
+                                </div>
+
+                                <div class="field">
+                                  <label>Escolaridade</label>
+                                  <select name='escolaridade'>
+                                    <option value="NI" disabled selected>Escolaridade</option>
+                                    <option value="FI">Fundamental incompleto</option>
+                                    <option value="FC">Fundamental completo</option>
+                                    <option value="MI">Médio incompleto</option>
+                                    <option value="MC">Médio completo</option>
+                                    <option value="SI">Superior incompleto</option>
+                                    <option value="SC">Superior completo</option>
+                                    <option value="EC">Especialização completa</option>
+                                    <option value="ME">Mestrado completo</option>
+                                    <option value="DC">Doutorado completo</option> 
+</select>
+                                </div>
+                                
+                        </div>
+                        <br>
+                        <button class="ui black bottom attached button" type="submit">Submeter</button>
+                    </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+</div>
+
+{% endblock %}

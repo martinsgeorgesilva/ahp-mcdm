@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+<h1>Pesquisas Publicadas</h1>
+<ul>
+    {% for research in object_list %}
+    <li><a href="{% url 'research:detail' research.id %}">{{ research }}</a></li>
+    {% empty %}
+    <li>Nenhuma Pesquisa ainda.</li>
+    {% endfor %}
+</ul>
+
+<a class="btn btn-primary" href="{% url 'research:add' %}" role="button">Novo Pesquisa</a>
+
+{% endblock %}

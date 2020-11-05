@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+<form action="" method="post">
+    {% csrf_token %}
+    {% trans '
+Os seguintes objetos, bem como seus objetos relacionados, serão excluídos. Você tem certeza?' %}
+    <input type="submit" class="btn btn-primary" value="{% trans 'Confirm deletion' %}" name="confirm_delete" />
+    <a class="btn btn-primary" href="{% url 'criterion:list' %}" role="button">Cancelar</a>
+</form>
+{% endblock %}

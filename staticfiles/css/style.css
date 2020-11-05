@@ -1,0 +1,14 @@
+body {
+  background-color: rgb(249, 249, 249);
+}
+.ui.wrapper {
+  margin-top: 100px;
+}
+
+.v-bottom {
+  vertical-align: bottom !important;
+}
+
+.text-green {
+  color: green !important;
+}

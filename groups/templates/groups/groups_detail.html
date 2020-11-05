@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+<h1>Grupo: {{ groups.name }}</h1>
+
+<p><strong>Nome:</strong> {{ groups.name}}</p>
+<p><strong>Criado por:</strong> {{ groups.created_by }}</p>
+<p><strong>Criado em:</strong> {{ groups.created_at }}</p>
+<p><strong>Quantidade de Critérios :</strong> {{ groups.relations_count }}</p>
+<p><strong>Questões Geradas:</strong> {{ groups.amount_questions }}</p>
+
+
+
+<a class="btn btn-primary" href="{% url 'groups:update' groups.id %}" role="button">Editar</a>
+<a class="btn btn-danger" href="{% url 'groups:delete' groups.id %}" role="button">Deletar</a>
+<a class="btn btn-warning" href="{% url 'groups:relationship' groups.id %}" role="button">Adicionar Relacionamento</a>
+<a class="btn btn-warning" href="{% url 'groups:preview' groups.id %}" role="button">Pré-Visualizar Publicação</a>
+<a class="btn btn-warning" href="{% url 'groups:publish' groups.id %}" role="button">Publicar</a>
+<br>
+<br>
+<br>
+
+
+    <ul>
+            {% for relations in relations_list %}
+            <li>{{ relations.criterion }}</li>
+            {% empty %}
+            <li>Sem Relacionamentos para o Grupo Ainda.</li>
+            {% endfor %}
+        </ul>
+
+{% endblock %}

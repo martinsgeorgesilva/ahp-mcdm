@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+texto que relaciona um formulario com uma pesquisa
+
+<form action="" method="post" class="form-control">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Publicar" />
+</form>
+{% endblock %}
