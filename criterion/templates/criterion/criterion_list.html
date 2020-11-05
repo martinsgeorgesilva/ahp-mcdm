@@ -1,12 +1,17 @@
 {% extends 'base.html' %}
 {% load i18n %}
 {% block content %}
+
+
+
+
 <h1>Critérios Cadastrados</h1>
+
 <ul>
     {% for criterion in object_list %}
     <li><a href="{% url 'criterion:detail' criterion.id %}">{{ criterion.name }}</a></li>
     {% empty %}
-    <li>Nenhun critério ainda.</li>
+    <li>Nenhum critério ainda.</li>
     {% endfor %}
 </ul>
 

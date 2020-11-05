@@ -6,7 +6,7 @@
     {% for research in object_list %}
     <li><a href="{% url 'research:detail' research.id %}">{{ research }}</a></li>
     {% empty %}
-    <li>Nenhuma Pesquisa ainda.</li>
+    <li>Nenhuma Pesquisa Publicada.</li>
     {% endfor %}
 </ul>
 
