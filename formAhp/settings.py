@@ -17,7 +17,7 @@ from pathlib import Path
 import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -31,7 +31,7 @@ DEBUG = True
 
 # ALLOWED_HOSTS = ['ec2-18-216-176-193.us-east-2.compute.amazonaws.com']
 ALLOWED_HOSTS = [
-    'localhost',
+    'localhost','ahp-mcdm.herokuapp.com'
     ]
 
 
@@ -147,8 +147,11 @@ USE_TZ = True
 
 #STATIC_ROOT = BASE_DIR/'static'
 
-STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR /'static'
 
+STATIC_URL = '/static/'
+'''
+import os
 
 STATICFILES_DIRS = ( 
     os.path.join(BASE_DIR, 'static'), 
@@ -156,5 +159,4 @@ STATICFILES_DIRS = (
 )
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-
+'''
